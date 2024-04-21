@@ -61,12 +61,28 @@ class TranslatorApp:
             messagebox.showerror("Erro de Tradução", f"Ocorreu um erro ao traduzir: {str(e)}")
 
     def show_language_options(self):
-        """Mostra uma janela com opções de idiomas."""
         supported_languages = {
-            # Dicionário de idiomas suportados
+            'af': 'Africâner', 'sq': 'Albanês', 'am': 'Amárico', 'ar': 'Árabe', 'hy': 'Armênio',
+            'az': 'Azerbaijano', 'eu': 'Basco', 'be': 'Bielorrusso', 'bn': 'Bengali', 'bs': 'Bósnio',
+            'bg': 'Búlgaro', 'ca': 'Catalão', 'ceb': 'Cebuano', 'ny': 'Chichewa', 'zh-cn': 'Chinês (Simplificado)',
+            'zh-tw': 'Chinês (Tradicional)', 'co': 'Córsico', 'hr': 'Croata', 'cs': 'Tcheco', 'da': 'Dinamarquês',
+            'nl': 'Holandês', 'en': 'Inglês', 'eo': 'Esperanto', 'et': 'Estoniano', 'fil': 'Filipino', 'fi': 'Finlandês',
+            'fr': 'Francês', 'fy': 'Frísio', 'gl': 'Galês', 'ka': 'Georgiano', 'de': 'Alemão', 'el': 'Grego',
+            'gu': 'Guzerate', 'ht': 'Haitiano', 'ha': 'Hauçá', 'haw': 'Havaiano', 'iw': 'Hebraico', 'hi': 'Hindi',
+            'hmn': 'Hmong', 'hu': 'Húngaro', 'is': 'Islandês', 'ig': 'Igbo', 'id': 'Indonésio', 'ga': 'Irlandês',
+            'it': 'Italiano', 'ja': 'Japonês', 'jw': 'Javanês', 'kn': 'Canarês', 'kk': 'Cazaque', 'km': 'Khmer',
+            'rw': 'Kinyarwanda', 'ko': 'Coreano', 'ku': 'Curdo (Kurmanji)', 'ky': 'Quirguiz', 'lo': 'Lao',
+            'la': 'Latim', 'lv': 'Letão', 'lt': 'Lituano', 'lb': 'Luxemburguês', 'mk': 'Macedônio',
+            'mg': 'Malgaxe', 'ms': 'Malaio', 'ml': 'Malaiala', 'mt': 'Maltês', 'mi': 'Maori', 'mr': 'Marata',
+            'mn': 'Mongol', 'my': 'Birmanês', 'ne': 'Nepalês', 'no': 'Norueguês', 'or': 'Odia',
+            'ps': 'Pashto', 'fa': 'Persa', 'pl': 'Polonês', 'pt': 'Português', 'pa': 'Punjabi', 'ro': 'Romeno',
+            'ru': 'Russo', 'sm': 'Samoano', 'gd': 'Gaélico Escocês', 'sr': 'Sérvio', 'st': 'Soto', 'sn': 'Shona',
+            'sd': 'Sindi', 'si': 'Cingalês', 'sk': 'Eslovaco', 'sl': 'Esloveno', 'so': 'Somali', 'es': 'Espanhol',
+            'su': 'Sundanês', 'sw': 'Suaíli', 'sv': 'Sueco', 'tg': 'Tajique', 'ta': 'Tâmil', 'te': 'Telugu',
+            'th': 'Tailandês', 'tr': 'Turco', 'uk': 'Ucraniano', 'ur': 'Urdu', 'ug': 'Uigur', 'uz': 'Usbeque',
+            'vi': 'Vietnamita', 'cy': 'Galês', 'xh': 'Xhosa', 'yi': 'Iídiche', 'yo': 'Iorubá', 'zu': 'Zulu'
         }
 
-        # Cria a janela para selecionar o idioma
         self.lang_window = tk.Toplevel(self.root)
         self.lang_window.title("Selecionar Idioma")
 
@@ -76,12 +92,12 @@ class TranslatorApp:
         self.listbox = tk.Listbox(self.lang_window, selectmode=tk.SINGLE, width=40, height=15)
         self.listbox.pack(pady=5)
 
-        # Lista com os idiomas disponíveis
         for lang_code, lang_name in supported_languages.items():
             self.listbox.insert(tk.END, f"{lang_name} ({lang_code})")
 
         confirm_button = tk.Button(self.lang_window, text="Confirmar", command=self.set_language)
         confirm_button.pack(pady=10)
+
 
     def set_language(self):
         """Define o idioma selecionado."""
