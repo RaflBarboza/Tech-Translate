@@ -21,8 +21,12 @@ class TranslatorApp:
         self.exercise_button = tk.Button(self.frame, text="Exercícios", command=self.show_random_translation_exercise)
         self.exercise_button.pack(side=tk.LEFT, padx=5)
 
+        # Botão para abrir a janela de lição
+        self.lesson_button = tk.Button(self.frame, text="Lição", command=self.show_lesson)
+        self.lesson_button.pack(side=tk.LEFT, padx=5)
+
         # Tamanho da janela principal
-        self.root.geometry("300x150")
+        self.root.geometry("400x200")
 
     def open_translation_window(self):
         """Abre a janela de tradução."""
@@ -143,12 +147,147 @@ class TranslatorApp:
         check_button.pack(pady=5)
 
     def check_translation(self, original_sentence, translated_sentence):
-        """Verifica se a tradução inserida pelo usuário está correta."""
+        """Verifica se a tradução inserida está correta."""
         user_answer = self.answer_entry.get().strip().lower()
         if user_answer == translated_sentence.lower():
             messagebox.showinfo("Resposta Correta", "Parabéns! Sua tradução está correta.")
         else:
             messagebox.showwarning("Resposta Incorreta", f"Sua tradução está incorreta. A tradução correta de\n\n'{original_sentence}'\n\né:\n\n'{translated_sentence}'.")
+
+    def show_lesson(self):
+        """Mostra uma lição com botões de idiomas."""
+        self.lesson_window = tk.Toplevel(self.root)
+        self.lesson_window.title("Lição")
+
+        label = tk.Label(self.lesson_window, text="Selecione um idioma para ver a lição:", pady=10)
+        label.pack()
+
+        button_frame = tk.Frame(self.lesson_window)
+        button_frame.pack(pady=10)
+
+        # Botões para os principais idiomas
+        languages = ["Inglês", "Espanhol", "Francês", "Alemão", "Italiano"]
+        for lang in languages:
+            button = tk.Button(button_frame, text=lang, command=lambda l=lang: self.show_lesson_content(l))
+            button.pack(side=tk.LEFT, padx=5)
+
+    def show_lesson_content(self, language):
+        """Mostra o conteúdo da lição para o idioma selecionado."""
+        lessons = {
+            "Inglês": """
+            Bem-vindo à lição de Inglês!
+            - Hello: Olá
+            - Thank you: Obrigado
+            - Please: Por favor
+            - Yes: Sim
+            - No: Não
+            """,
+            "Espanhol": """
+            Bienvenido a la lección de Español!
+            - Hola: Olá
+            - Gracias: Obrigado
+            - Por favor: Por favor
+            - Sí: Sim
+            - No: Não
+            """,
+            "Francês": """
+            Bienvenue à la leçon de Français!
+            - Bonjour: Olá
+            - Merci: Obrigado
+            - S'il vous plaît: Por favor
+            - Oui: Sim
+            - Non: Não
+            """,
+            "Alemão": """
+            Willkommen zur Deutschlektion!
+            - Hallo: Olá
+            - Danke: Obrigado
+            - Bitte: Por favor
+            - Ja: Sim
+            - Nein: Não
+            """,
+            "Italiano": """
+            Benvenuto alla lezione di Italiano!
+            - Ciao: Olá
+            - Grazie: Obrigado
+            - Per favore: Por favor
+            - Sì: Sim
+            - No: Não
+            """
+        }
+
+        if language in lessons:
+            lesson_content = lessons[language]
+            lesson_window = tk.Toplevel(self.root)
+            lesson_window.title(f"Lição de {language}")
+
+            label_lesson = tk.Label(lesson_window, text=lesson_content, justify=tk.LEFT, padx=10, pady=10)
+            label_lesson.pack()
+
+            exercise_button = tk.Button(lesson_window, text="Exercício", command=lambda: self.show_lesson_exercise(language))
+            exercise_button.pack(pady=10)
+
+    def show_lesson_exercise(self, language):
+        """Mostra um exercício para o idioma selecionado."""
+        exercises = {
+            "Inglês": [
+                ("Hello, ___ are you?", "how"),
+                ("Thank you very ___", "much"),
+                ("Please, ___ me the book.", "give"),
+                ("Yes, I ___ understand.", "can"),
+                ("No, I do ___ want it.", "not")
+            ],
+            "Espanhol": [
+                ("Hola, ¿___ estás?", "cómo"),
+                ("Gracias ___ todo.", "por"),
+                ("Por favor, ___ me el libro.", "dame"),
+                ("Sí, yo ___ entiendo.", "puedo"),
+                ("No, no ___ lo quiero.", "lo")
+            ],
+            "Francês": [
+                ("Bonjour, comment ___?", "ça va"),
+                ("Merci ___ tout.", "pour"),
+                ("S'il vous plaît, ___ moi le livre.", "donnez"),
+                ("Oui, je ___ comprendre.", "peux"),
+                ("Non, je ne ___ veux pas.", "le")
+            ],
+            "Alemão": [
+                ("Hallo, wie ___?", "geht's"),
+                ("Danke ___ alles.", "für"),
+                ("Bitte, ___ mir das Buch.", "geben"),
+                ("Ja, ich ___ verstehen.", "kann"),
+                ("Nein, ich will ___.", "nicht")
+            ],
+            "Italiano": [
+                ("Ciao, come ___?", "stai"),
+                ("Grazie ___ tutto.", "per"),
+                ("Per favore, ___ il libro.", "dammi"),
+                ("Sì, io ___ capire.", "posso"),
+                ("No, non ___ voglio.", "lo")
+            ]
+        }
+
+        if language in exercises:
+            exercise, answer = random.choice(exercises[language])
+            exercise_window = tk.Toplevel(self.root)
+            exercise_window.title(f"Exercício de {language}")
+
+            label_exercise = tk.Label(exercise_window, text=exercise, padx=10, pady=10)
+            label_exercise.pack()
+
+            self.answer_entry = tk.Entry(exercise_window, width=50)
+            self.answer_entry.pack(pady=5)
+
+            check_button = tk.Button(exercise_window, text="Verificar", command=lambda: self.check_lesson_exercise(answer))
+            check_button.pack(pady=5)
+
+    def check_lesson_exercise(self, correct_answer):
+        """Verifica se a resposta do exercício está correta."""
+        user_answer = self.answer_entry.get().strip().lower()
+        if user_answer == correct_answer:
+            messagebox.showinfo("Resposta Correta", "Parabéns! Sua resposta está correta.")
+        else:
+            messagebox.showwarning("Resposta Incorreta", f"Sua resposta está incorreta. A resposta correta é '{correct_answer}'.")
 
 if __name__ == "__main__":
     root = tk.Tk()
